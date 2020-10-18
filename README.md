@@ -26,3 +26,48 @@ Make a new unique Id, great for creating new objects -> $util.autoId()
 Error out of the template execution -> $util.error("Error Description Goes Here")
 
 Reference Link: https://docs.aws.amazon.com/appsync/latest/devguide/resolver-util-reference.html
+
+#### Schema
+
+```graphql
+input CreateQuestionInput {
+	text: String!
+	explanation: String
+	answers: [AWSJSON]
+}
+
+type Mutation {
+	createQuestion(input: CreateQuestionInput!): Question
+}
+
+type Query {
+	getQuestion(id: ID!): Question
+}
+
+type Question {
+	id: ID!
+	text: String!
+	explanation: String
+	answers: [AWSJSON]
+}
+```
+
+#### Resolver request Template
+
+```vtl
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key" : {
+        "id": $util.dynamodb.toDynamoDBJson($util.autoId())
+    },
+    "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args.input)
+}
+```
+
+#### Resolver response Template
+
+```vtl
+$util.toJson($ctx.result)
+```
+
