@@ -17,4 +17,12 @@ AWS AppSync have a resolver concept which automatically converts the arguments d
 
 VTL is velocity template language and it has a lot of properties of a programming language. You can call functions on objects, you can perform loops, you can deal with data structures like maps and lists but VTL is designed to be very limited and can not be used as a full programming language. In VTL, input is all of the variables that you get such as $context and the output is a finished JSON or text document. As in the case of AppSync, we're always gonna be working with JSON documents because our GraphQL engine wants JSON out of our VTL resolvers.
 
+#### Some example VTL Statements
 
+Set new variable with contents "Hello!" ->  #set(\$newVar = "Hello!")
+
+Make a new unique Id, great for creating new objects -> $util.autoId()
+
+Error out of the template execution -> $util.error("Error Description Goes Here")
+
+Reference Link: https://docs.aws.amazon.com/appsync/latest/devguide/resolver-util-reference.html
